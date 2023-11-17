@@ -1,4 +1,5 @@
 from configuration.config import *
+from api.admin.admin_router import *
 from api.teacher.teacher_router import *
 # from api.student.student_router import *
 import uvicorn
