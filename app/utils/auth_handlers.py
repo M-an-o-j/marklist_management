@@ -56,10 +56,10 @@ def decode_token_id(token,model=None, db = None):
             raise HTTPException(status_code=401, detail="Token is expired")
     return int(decode_token)
 
-def decode_token_admin(model, db = None):
-    decode_token = jwt.decode(model.split("Bearer")[1].strip(), SECRET_KEY, algorithms=["HS256"])['admin']
+def decode_token_role(token,model, db = None):
+    decode_token = jwt.decode(token.split("Bearer")[1].strip(), SECRET_KEY, algorithms=["HS256"])['role']
     if db != None:
-        tok = db.query(model).filter(model.token == model.split("Bearer")[1].strip()).first()
+        tok = db.query(model).filter(model.token == token.split("Bearer")[1].strip()).first()
         print(tok)
         if tok == None:
             raise HTTPException(status_code=401, detail="Token is expired")

@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime
 
 class AdminResponse(BaseModel):
@@ -10,7 +10,7 @@ class AdminResponse(BaseModel):
     created_at : datetime = None
 
 class AdminSignUp(BaseModel):
-    name : str = None
+    name : str = Field(None, title="")
     email : str = None
     phone_number : str = None
     username : str = None

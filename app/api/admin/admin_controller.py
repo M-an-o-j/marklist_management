@@ -7,10 +7,10 @@ def getAlladminController(db):
     return getAlladminService(db)
 
 def getSingleadminController(db,id, Auth_head):
+    admin_id = decode_token_id(Auth_head,model=AdminToken,db=db)
     db_admin = db.query(Admin).filter(Admin.admin_id == id, Admin.is_deleted == False).first()
     if db_admin == None:
         errorhandler(404,"admin not found")
-    admin_id = decode_token_id(Auth_head)
     if admin_id == None:
          errorhandler(403, "Token is expired")
     return getSingleadminService(db,db_admin)
@@ -50,8 +50,11 @@ def signinController(db,admin):
     
     return signinService(db, admin, db_admin)
 
-def getMyProfileController(db,Auth_head):
+def getMyProfileController(db,Auth_head,id):
         admin_id = decode_token_id(Auth_head,model=AdminToken,db=db)
+        print("ddd",admin_id)
+        role = decode_token_role(Auth_head,model=AdminToken,db=db)
+        print(role)
         print('id',admin_id)
         db_admin = db.query(Admin).filter(Admin.admin_id == admin_id).first()
         if validation.User_delete_validation(db_admin):
@@ -59,22 +62,28 @@ def getMyProfileController(db,Auth_head):
 
         return getMyProfileService(db, db_admin)
 
-def updateadminController(db,admin,Auth_head):
+def updateadminController(db,admin,Auth_head,id):
     admin_id = decode_token_id(Auth_head,model=AdminToken,db=db)
-    db_admin = db.query(admin).filter(admin.admin_id == admin_id).first()
+    print("hii")
+    db_admin = db.query(Admin).filter(Admin.admin_id == id).first()
+    print("hii2")
     if db_admin != None:
         if validation.User_delete_validation(db_admin):
             errorhandler(400, "user not found")
+    if validation.duplication_username_validate(db,Admin,admin.username):
+         errorhandler(400,"username is not avaiable")
     if admin.email:
         if not validation.email_validations(admin.email):
             errorhandler(400, "Invalid email")
+    if validation.duplication_email_validate(db,Admin,admin.email):
+         errorhandler(400,"email is not avaiable")
     if admin.phone_number:
         if not validation.phoneNumber_validation(admin.phone_number):
             errorhandler(400,"Invalid phone number")
     if admin.password:
         if not validation.password_validation(admin.password):
             errorhandler(400, "Password should contain 8 character, atleast 1 uppercase letter, atleast 1 lowercase letter, atleast 1 symbol")
-    return updateadminService(db,admin_id,admin)
+    return updateadminService(db,admin_id,admin, db_admin)
 
 def signOutController(db,Auth_head,id):
             db_admin = db.query(Admin).filter(Admin.admin_id == id).first()
@@ -87,11 +96,10 @@ def signOutController(db,Auth_head,id):
             return signOutService(db, db_admin,db_token)
 
 def deleteadminController(db,Auth_head,id):
+            admin_id = decode_token_id(Auth_head,model=AdminToken,db=db)
             db_admin = db.query(Admin).filter(Admin.admin_id == id).first()
-            db_token = db.query(AdminToken).filter(AdminToken.admin_id == db_admin.admin_id).first()
-            if db_token == None:
-                  errorhandler(400,"token is expired")
+            print(db_admin.username)
             if validation.User_delete_validation(db_admin):
                   errorhandler(404,"User not found")   
 
-            return deleteadminService(db, db_admin,db_token)
+            return deleteadminService(db, db_admin)

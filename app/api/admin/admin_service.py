@@ -47,7 +47,7 @@ def signupService(db, admin):
 def signinService(db, admin, db_admin):
         db_admin.is_active = True
         signin_log = AdminSigninLogs(admin_id= db_admin.admin_id, loggedin = datetime.now())
-        access_token = create_access_token(data={"sub": str(db_admin.admin_id)}, expires_delta=expiry_del)
+        access_token = create_access_token(data={"sub": str(db_admin.admin_id),"role": str("admin")}, expires_delta=expiry_del)
         db_token = AdminToken(admin_id= db_admin.admin_id, token=access_token)
         db.add(signin_log)
         db.add(db_token)
@@ -67,11 +67,11 @@ def getMyProfileService(db, db_user):
             db.rollback()
             errorhandler(400,f"{e}")
 
-def updateadminService(db,admin_id,admin):
+def updateadminService(db,admin_id,admin,db_admin):
     try:
-        db_admin = db.query(admin).filter(admin.admin_id == admin_id).first()
         if admin.username != "" and admin.username != None:
-                db_admin.username = db_admin.username
+                print("username")
+                db_admin.username = admin.username
         if admin.name != "" and admin.name != None:   
                     db_admin.name = admin.name
         if admin.password != "" and admin.password != None:   
@@ -109,11 +109,13 @@ def signOutService(db, db_admin,db_token):
             db.rollback()
             errorhandler(400,f"{e}")
 
-def deleteadminService(db, db_admin,db_token):
+def deleteadminService(db, db_admin):
           try:
             print(db_admin.is_deleted)
             db_admin.is_deleted = True
-            db.delete(db_token)
+            db_token = db.query(AdminToken).filter(AdminToken.admin_id == db_admin.admin_id).first()
+            if db_token != None:
+                db.delete(db_token)
             db.commit()
             return JSONResponse({
                   "message":"admin deleted successfully"
