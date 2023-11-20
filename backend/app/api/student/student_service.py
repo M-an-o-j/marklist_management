@@ -120,7 +120,7 @@ def deleteStudentService(db, db_student):
                 db.delete(db_token)
             db.commit()
             return JSONResponse({
-                  "message":"admin deleted successfully"
+                  "message":"student deleted successfully"
             })
           except Exception as e:
             db.rollback()

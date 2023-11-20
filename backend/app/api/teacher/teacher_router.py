@@ -19,7 +19,7 @@ async def getSingleTeacher(id:int,db: Session = Depends(get_session)):
 async def signupTeacher(teacher: TeacherSignUp,Auth_head:str = Depends(get_authorization_header),role:str = Depends(admin_authorization),db: Session = Depends(get_session)):
     return signupController(db, teacher,Auth_head)
 
-@router.post("/teacher/logininTeacher", response_model=TeacherResponse, tags=["Teacher"], summary="Teachers can signin here")
+@router.post("/teacher/logininTeacher/", response_model=TeacherResponse, tags=["Teacher"], summary="Teachers can signin here")
 async def signinTeacher(teacher: TeacherSignIn,db: Session = Depends(get_session)):
     return signinController(db,teacher)
 
@@ -41,3 +41,7 @@ async def signoutTeacher(id:int,Auth_head:str = Depends(get_authorization_header
 @router.delete("/teacher/deleteTeacher",dependencies = [Depends(httpbearer)], response_model=TeacherResponse, tags=["Teacher"], summary="Teacher can delete their account here")
 async def deleteTeacher(Auth_head:str = Depends(get_authorization_header),role:str = Depends(teacher_authorization),db: Session = Depends(get_session)):
     return deleteTeacherController(db,Auth_head)
+
+@router.post("/test")
+async def test_route():
+    return {"message": "Test successful"}

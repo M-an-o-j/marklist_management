@@ -87,10 +87,14 @@ def updateadminController(db,admin,Auth_head,id):
     return updateadminService(db,admin, db_admin)
 
 def signOutController(db,Auth_head,id):
+            admin_id = decode_token_id(Auth_head,model=AdminToken,db=db)
             db_admin = db.query(Admin).filter(Admin.admin_id == id).first()
             db_token = db.query(AdminToken).filter(AdminToken.admin_id == db_admin.admin_id).first()
+            print(db_token)
             if db_token == None:
                   errorhandler(400,"token is expired")
+            if db_admin.is_active == False:
+                 errorhandler(400, f"{id} is not loggedin yet")
             if validation.User_delete_validation(db_admin):
                   errorhandler(404,"User not found")   
 

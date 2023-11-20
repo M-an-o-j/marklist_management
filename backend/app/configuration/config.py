@@ -2,6 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from fastapi import FastAPI, Depends
 from sqlalchemy.ext.declarative import declarative_base
+from fastapi.middleware.cors import CORSMiddleware
 
 DATABASE_URL = "postgresql://postgres:12345@localhost/postgres"
 
@@ -16,6 +17,10 @@ router = FastAPI(debug=True, title="Marklist Management", description="""
         1. Teacher can create, update, read and delete the marklist and students.
         2. Student only can read marklist, can't create or update or delete anything.
 """)
+
+
+
+
 
 def get_session():
     session = sessionLocal()

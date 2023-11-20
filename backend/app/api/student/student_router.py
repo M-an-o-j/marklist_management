@@ -17,7 +17,7 @@ async def getSinglestudent(id:int,db: Session = Depends(get_session)):
     return getSingleTeacherController(db, id)
 
 @router.post("/student/signupstudent",dependencies = [Depends(httpbearer)],response_model=StudentResonse, tags=["Student"])
-async def signupstudent(id:int,student: StudentSignup,role : str = Depends(teacher_authorization),db: Session = Depends(get_session)):
+async def signupstudent(student: StudentSignup,role : str = Depends(teacher_authorization),db: Session = Depends(get_session)):
     return signupStudentController(db,student)
 
 @router.post("/student/signinstudent",response_model=StudentResonse, tags=["Student"])
@@ -29,13 +29,13 @@ async def getMyProfile(Auth_head:str = Depends(get_authorization_header),db: Ses
     return getMyProfileController(db,Auth_head)
 
 @router.put("/student/updatestudent",dependencies = [Depends(httpbearer)],response_model=StudentResonse, tags=["Student"])
-async def updatestudent(student: StudentSignup,Auth_head:str = Depends(get_authorization_header),db: Session = Depends(get_session)):
-    return updateStudentController(db,Auth_head,student)
+async def updatestudent(id:int,student: StudentSignup,Auth_head:str = Depends(get_authorization_header),role : str = Depends(teacher_authorization),db: Session = Depends(get_session)):
+    return updateStudentController(db,Auth_head,student,id)
 
 @router.post("/student/signoutstudent",dependencies = [Depends(httpbearer)], tags=["Student"])
 async def signoutstudent(Auth_head:str = Depends(get_authorization_header),db: Session = Depends(get_session)):
     return  signoutStudentController(db,Auth_head)
 
 @router.delete("/student/deletestudent",dependencies = [Depends(httpbearer)],response_model=StudentResonse, tags=["Student"])
-async def deletestudent(Auth_head:str = Depends(get_authorization_header),db: Session = Depends(get_session)):
+async def deletestudent(Auth_head:str = Depends(get_authorization_header),role : str = Depends(teacher_authorization),db: Session = Depends(get_session)):
     return deleteStudentController(db,Auth_head)

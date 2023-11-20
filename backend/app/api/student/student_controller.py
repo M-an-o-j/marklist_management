@@ -58,10 +58,9 @@ def getMyProfileController(db,Auth_head):
 
     return getMyProfileService(db, db_student)
 
-def updateStudentController(db,Auth_head,student):
+def updateStudentController(db,Auth_head,student,id):
     student_id = decode_token_id(Auth_head,model=StudentToken,db=db)
-    print(student_id)
-    db_student = db.query(Student).filter(Student.student_id == student_id).first()
+    db_student = db.query(Student).filter(Student.student_id == id).first()
     print(db_student.username)
     if db_student != None:
         if validation.User_delete_validation(db_student):
