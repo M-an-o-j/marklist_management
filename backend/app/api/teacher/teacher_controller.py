@@ -49,7 +49,6 @@ def signinController(db,teacher):
     return signinService(db, teacher, db_teacher)
 
 def getMyProfileController(db,Auth_head):
-        admin_id = decode_token_id(Auth_head, model=AdminToken, db=db)
         teacher_id = decode_token_id(Auth_head,model=TeacherToken,db=db)
         print('id',teacher_id)
         db_teacher = db.query(Teacher).filter(Teacher.teacher_id == teacher_id).first()
@@ -75,17 +74,34 @@ def updateTeacherController(db,teacher,Auth_head,id):
             errorhandler(400, "Password should contain 8 character, atleast 1 uppercase letter, atleast 1 lowercase letter, atleast 1 symbol")
     return updateTeacherService(db,id,teacher)
 
-def signOutController(db,Auth_head,id):
+def signOutController(db,Auth_head,id,role):
+            if role != "teacher":
+                admin_id = decode_token_id(Auth_head, model=AdminToken, db=db)
             teacher_id = decode_token_id(Auth_head, model=TeacherToken, db=db)
-            db_teacher = db.query(Teacher).filter(Teacher.teacher_id == id).first()
+            if id != None:
+                db_teacher = db.query(Teacher).filter(Teacher.teacher_id == id).first()
+                if db_teacher == None:
+                     errorhandler(404, "teacher not found")
+                print("hii")
+            else:
+                db_teacher = db.query(Teacher).filter(Teacher.teacher_id == teacher_id).first()
+            
             if validation.User_delete_validation(db_teacher):
                   errorhandler(404,"User not found")   
+            if db_teacher.is_active == False:
+                 errorhandler(400, f"{id} is not loggedin yet")
 
             return signOutService(db, db_teacher)
 
-def deleteTeacherController(db,Auth_head):
-            teacher_id = decode_token_id(Auth_head,model=TeacherToken,db=db)
-            db_teacher = db.query(Teacher).filter(Teacher.teacher_id == teacher_id).first()
+def deleteTeacherController(db,Auth_head,id):
+            admin_id = decode_token_id(Auth_head, model=AdminToken, db=db)
+            print(admin_id)
+            if admin_id == None:
+                teacher_id = decode_token_id(Auth_head, model=TeacherToken, db=db)
+                db_teacher = db.query(Teacher).filter(Teacher.teacher_id == teacher_id).first()
+            else:
+                db_teacher = db.query(Teacher).filter(Teacher.teacher_id == id).first()
+                print(db_teacher, "teacher")
             if validation.User_delete_validation(db_teacher):
                   errorhandler(404,"User not found")   
 

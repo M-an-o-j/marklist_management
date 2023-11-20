@@ -1,5 +1,7 @@
 from .student_service import *
 from utils.validations import Validations
+from api.admin.admin_model import AdminToken
+from api.teacher.teacher_model import TeacherToken
 
 validation = Validations()
 
@@ -58,10 +60,19 @@ def getMyProfileController(db,Auth_head):
 
     return getMyProfileService(db, db_student)
 
-def updateStudentController(db,Auth_head,student,id):
-    student_id = decode_token_id(Auth_head,model=StudentToken,db=db)
+def updateStudentController(db,Auth_head,student,id,role):
+    if role == "admin":
+        print("admin")
+        admin_id = decode_token_id(Auth_head,model=AdminToken,db=db)
+    if role == "teacher":
+        print("teacher token")
+        teacher_id = decode_token_id(Auth_head,model=TeacherToken,db=db)
+        print("teacher id ", teacher_id)
+    if role == "student":
+        print("student")
+        student_id = decode_token_id(Auth_head,model=StudentToken,db=db)
     db_student = db.query(Student).filter(Student.student_id == id).first()
-    print(db_student.username)
+    print("username",db_student.username)
     if db_student != None:
         if validation.User_delete_validation(db_student):
             errorhandler(400, "user not found")
@@ -80,21 +91,34 @@ def updateStudentController(db,Auth_head,student,id):
             errorhandler(400, "Password should contain 8 character, atleast 1 uppercase letter, atleast 1 lowercase letter, atleast 1 symbol")
     return updateStudentService(db,student, db_student)
 
-def signoutStudentController(db,Auth_head):
-    student_id = decode_token_id(Auth_head,model=StudentToken,db=db)
-    db_student = db.query(Student).filter(Student.student_id == student_id).first()
-    db_token = db.query(StudentToken).filter(StudentToken.student_id == db_student.student_id).first()
-    if db_token == None:
-            errorhandler(400,"token is expired")
+def signoutStudentController(db,Auth_head,id,role):
+    if role == "admin":
+        admin_id = decode_token_id(Auth_head,model=AdminToken,db=db)
+        if id != None:
+            db_student = db.query(Student).filter(Student.student_id == id).first()
+        else:
+            errorhandler(400, "id must for teacher and admin")
+    if id == None:
+        student_id = decode_token_id(Auth_head,model=StudentToken,db=db)
+        db_student = db.query(Student).filter(Student.student_id == student_id).first()
+        db_token = db.query(StudentToken).filter(StudentToken.student_id == db_student.student_id).first()
+    else:
+        db_student = db.query(Student).filter(Student.student_id == id).first()
+        db_token = db.query(StudentToken).filter(StudentToken.student_id == id).first()
     if validation.User_delete_validation(db_student):
             errorhandler(404,"User not found")   
+    if db_student.is_active == False:
+                 errorhandler(400, f"{id} is not loggedin yet")
 
     return signOutStudentService(db, db_student,db_token)
 
-def deleteStudentController(db,Auth_head):
-            admin_id = decode_token_id(Auth_head,model=StudentToken,db=db)
-            db_student = db.query(Student).filter(Student.student_id == admin_id).first()
-            print(db_student.username)
+def deleteStudentController(db,Auth_head,id,role):
+            if role == "admin":
+                admin_id = decode_token_id(Auth_head,model=AdminToken,db=db)
+            if role == "teacher":
+                student_id = decode_token_id(Auth_head,model=TeacherToken,db=db)
+            db_student = db.query(Student).filter(Student.student_id == id).first()
+            
             if validation.User_delete_validation(db_student):
                   errorhandler(404,"User not found")   
 

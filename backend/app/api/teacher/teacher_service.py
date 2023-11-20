@@ -115,7 +115,8 @@ def deleteTeacherService(db, db_teacher):
           try:
             db_teacher.is_deleted = True
             db_token = db.query(TeacherToken).filter(TeacherToken.teacher_id == db_teacher.teacher_id).first()
-            db.delete(db_token)
+            if db_token != None:
+                db.delete(db_token)
             db.commit()
             return JSONResponse({
                   "message":"Teacher deleted successfully"

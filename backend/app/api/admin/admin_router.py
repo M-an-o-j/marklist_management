@@ -25,8 +25,11 @@ async def signinadmin(admin: AdminSignIn,db: Session = Depends(get_session)):
     return signinController(db,admin)
 
 @router.get("/admin/getMyProfile",dependencies = [Depends(httpbearer)], response_model=AdminResponse, tags=["Admin"], summary="admin can fetch their own profile here")
-async def getMyProfile(Auth_head:str = Depends(get_authorization_header),x : str = Depends(admin_authorization),db: Session = Depends(get_session)):
-    return getMyProfileController(db,Auth_head)
+async def getMyProfile(Auth_head:str = Depends(get_authorization_header),role : str = Depends(admin_authorization),db: Session = Depends(get_session)):
+    if role == "admin":
+        return getMyProfileController(db,Auth_head)
+    else:
+        errorhandler(403,"You can't access this route")
 
 @router.put("/admin/updateadmin",dependencies = [Depends(httpbearer)], response_model=AdminResponse, tags=["Admin"], summary="admin can update their details here")
 async def updateadmin(id:int,admin: AdminSignUp,Auth_head:str = Depends(get_authorization_header),x : str = Depends(admin_authorization),db: Session = Depends(get_session)):

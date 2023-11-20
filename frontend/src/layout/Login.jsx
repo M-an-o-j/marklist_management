@@ -23,11 +23,20 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         
-        const data = await axios.post(`http://127.0.0.1:5001/api/v1/${isTeacherSelected ? 'teacher/logininTeacher/' : 'student/signinstudent/'}`, {
-            'username':username,
-            'password':password
-        })
-        console.log(data);
+        try{
+            const data = await axios.post(`http://127.0.0.1:5001/api/v1/${isTeacherSelected ? 'teacher/logininTeacher/' : 'student/signinstudent/'}`, {
+                'username':username,
+                'password':password
+            },{
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            console.log(data);
+        }
+        catch(err){
+            console.log("error",err.message);
+        }
     }
 
     return (
