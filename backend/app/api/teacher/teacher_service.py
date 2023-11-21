@@ -53,8 +53,9 @@ def signinService(db, teacher, db_teacher):
         db.add(signin_log)
         db.add(db_token)
         db.commit()           
-        return JSONResponse({
+        return JSONResponse(status_code=200, content={
             "message":"User loggedin successfully",
+            "status":"ok",
             "user":{
                 "username":teacher.username,
                 "access_token": access_token, 

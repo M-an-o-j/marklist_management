@@ -20,6 +20,7 @@ class Student(Base):
 
     student_signinlogs = relationship("StudentSigninLogs", back_populates="signinlogs_student")
     studenttoken = relationship("StudentToken", back_populates="tokenstudent")
+    student_paper = relationship("Paper",back_populates="paper_student")
     
 class  StudentSigninLogs(Base):
     __tablename__ = "student_signin_logs"

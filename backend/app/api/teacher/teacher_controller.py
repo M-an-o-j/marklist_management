@@ -77,12 +77,12 @@ def updateTeacherController(db,teacher,Auth_head,id):
 def signOutController(db,Auth_head,id,role):
             if role != "teacher":
                 admin_id = decode_token_id(Auth_head, model=AdminToken, db=db)
-            teacher_id = decode_token_id(Auth_head, model=TeacherToken, db=db)
+            if role != "admin":
+                teacher_id = decode_token_id(Auth_head, model=TeacherToken, db=db)
             if id != None:
                 db_teacher = db.query(Teacher).filter(Teacher.teacher_id == id).first()
                 if db_teacher == None:
                      errorhandler(404, "teacher not found")
-                print("hii")
             else:
                 db_teacher = db.query(Teacher).filter(Teacher.teacher_id == teacher_id).first()
             

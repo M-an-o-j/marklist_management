@@ -21,7 +21,6 @@ router = FastAPI(debug=True, title="Marklist Management", description="""
 
 
 
-
 def get_session():
     session = sessionLocal()
     try:

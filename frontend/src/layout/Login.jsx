@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import '../App.css'
 
@@ -9,6 +9,9 @@ const Login = () => {
     const [isTeacherSelected, setTeacherSelected] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("")
+
+    const navigate = useNavigate();
 
     const handleUserTypeChange = (type) => {
         if (type === 'student') {
@@ -32,10 +35,13 @@ const Login = () => {
                     'Content-Type': 'application/json',
                 }
             })
-            console.log(data);
+            console.log(data.status);
+            if (data.data.status == "ok"){
+                navigate("/")
+            }
         }
         catch(err){
-            console.log("error",err.message);
+            console.log("error",err.response.data);
         }
     }
 
@@ -64,6 +70,7 @@ const Login = () => {
                         <input onChange={(e) => setPassword(e.target.value)} type="password" className="form-control" id="exampleInputPassword1" />
                     </div>
                     <button type="submit" className="btn btn-dark">Login</button>
+                    
                 </form>
             </div>
         </div>
