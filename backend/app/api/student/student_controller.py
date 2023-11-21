@@ -92,8 +92,11 @@ def updateStudentController(db,Auth_head,student,id,role):
     return updateStudentService(db,student, db_student)
 
 def signoutStudentController(db,Auth_head,id,role):
-    if role == "admin":
-        admin_id = decode_token_id(Auth_head,model=AdminToken,db=db)
+    if role == "admin" and "teacher":
+        if role == "admin":
+            admin_id = decode_token_id(Auth_head,model=AdminToken,db=db)
+        if role == "teacher":
+            teacher_id = decode_token_id(Auth_head,model=TeacherToken,db=db)
         if id != None:
             db_student = db.query(Student).filter(Student.student_id == id).first()
         else:
@@ -101,9 +104,13 @@ def signoutStudentController(db,Auth_head,id,role):
     if id == None:
         student_id = decode_token_id(Auth_head,model=StudentToken,db=db)
         db_student = db.query(Student).filter(Student.student_id == student_id).first()
+        if db_student == None:
+                errorhandler(404,"student not found") 
         db_token = db.query(StudentToken).filter(StudentToken.student_id == db_student.student_id).first()
     else:
         db_student = db.query(Student).filter(Student.student_id == id).first()
+        if db_student == None:
+                errorhandler(404,"student not found") 
         db_token = db.query(StudentToken).filter(StudentToken.student_id == id).first()
     if validation.User_delete_validation(db_student):
             errorhandler(404,"User not found")   
@@ -118,8 +125,9 @@ def deleteStudentController(db,Auth_head,id,role):
             if role == "teacher":
                 student_id = decode_token_id(Auth_head,model=TeacherToken,db=db)
             db_student = db.query(Student).filter(Student.student_id == id).first()
-            
+            if db_student == None:
+                errorhandler(404,"student not found")           
             if validation.User_delete_validation(db_student):
-                  errorhandler(404,"User not found")   
+                  errorhandler(404,"student not found")   
 
             return deleteStudentService(db, db_student)

@@ -1,5 +1,5 @@
 from configuration.config import *
-from sqlalchemy import Column, String, Integer, Boolean, DateTime, ForeignKey
+from sqlalchemy import Column, String, Integer, Boolean, DateTime, ForeignKey, ARRAY
 from sqlalchemy.orm import relationship
 
 class Subjects(Base):

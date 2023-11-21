@@ -25,18 +25,18 @@ async def signinstudent(student: StudentSignin,db: Session = Depends(get_session
     return signinStudentController(db,student)
 
 @router.get("/student/getMyProfile",dependencies = [Depends(httpbearer)],response_model=StudentResonse, tags=["Student"])
-async def getMyProfile(Auth_head:str = Depends(get_authorization_header),db: Session = Depends(get_session),role : str = Depends(teacher_authorization)):
+async def getMyProfile(Auth_head:str = Depends(get_authorization_header),db: Session = Depends(get_session),role : str = Depends(student_authorization)):
     if role == "student":
         return getMyProfileController(db,Auth_head)
     else:
         errorhandler(403,"You can't access this route")
 
 @router.put("/student/updatestudent",dependencies = [Depends(httpbearer)],response_model=StudentResonse, tags=["Student"])
-async def updatestudent(student: StudentSignup,id:int = None,Auth_head:str = Depends(get_authorization_header),role : str = Depends(teacher_authorization),db: Session = Depends(get_session)):
+async def updatestudent(student: StudentSignup,id:int,Auth_head:str = Depends(get_authorization_header),role : str = Depends(teacher_authorization),db: Session = Depends(get_session)):
     return updateStudentController(db,Auth_head,student,id,role)
 
 @router.post("/student/signoutstudent",dependencies = [Depends(httpbearer)], tags=["Student"])
-async def signoutstudent(id:int = None,Auth_head:str = Depends(get_authorization_header),role : str = Depends(teacher_authorization),db: Session = Depends(get_session)):
+async def signoutstudent(id:int = None,Auth_head:str = Depends(get_authorization_header),role : str = Depends(decode_role),db: Session = Depends(get_session)):
     return  signoutStudentController(db,Auth_head, id,role)
 
 @router.delete("/student/deletestudent",dependencies = [Depends(httpbearer)],response_model=StudentResonse, tags=["Student"])

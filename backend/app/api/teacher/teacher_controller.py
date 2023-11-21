@@ -99,8 +99,12 @@ def deleteTeacherController(db,Auth_head,id):
             if admin_id == None:
                 teacher_id = decode_token_id(Auth_head, model=TeacherToken, db=db)
                 db_teacher = db.query(Teacher).filter(Teacher.teacher_id == teacher_id).first()
+                if db_teacher == None:
+                     errorhandler(404,"teacher not found")
             else:
                 db_teacher = db.query(Teacher).filter(Teacher.teacher_id == id).first()
+                if db_teacher == None:
+                     errorhandler(404,"teacher not found")
                 print(db_teacher, "teacher")
             if validation.User_delete_validation(db_teacher):
                   errorhandler(404,"User not found")   

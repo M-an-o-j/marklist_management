@@ -46,22 +46,24 @@ def signupService(db, teacher, admin_id):
         errorhandler(400, f"{e}")
 
 def signinService(db, teacher, db_teacher):
-        db_teacher.is_active = True
-        signin_log = TeacherSigninLogs(teacher_id= db_teacher.teacher_id, loggedin = datetime.now())
-        access_token = create_access_token(data={"sub": str(db_teacher.teacher_id), "role":"teacher"}, expires_delta=expiry_del)
-        db_token = TeacherToken(teacher_id= db_teacher.teacher_id, token=access_token)
-        db.add(signin_log)
-        db.add(db_token)
-        db.commit()           
-        return JSONResponse(status_code=200, content={
-            "message":"User loggedin successfully",
-            "status":"ok",
-            "user":{
-                "username":teacher.username,
-                "access_token": access_token, 
-                "token_type": "bearer"}
-            })
-
+        try:
+            db_teacher.is_active = True
+            signin_log = TeacherSigninLogs(teacher_id= db_teacher.teacher_id, loggedin = datetime.now())
+            access_token = create_access_token(data={"sub": str(db_teacher.teacher_id), "role":"teacher"}, expires_delta=expiry_del)
+            db_token = TeacherToken(teacher_id= db_teacher.teacher_id, token=access_token)
+            db.add(signin_log)
+            db.add(db_token)
+            db.commit()           
+            return JSONResponse(status_code=200, content={
+                "message":"User loggedin successfully",
+                "status":"ok",
+                "user":{
+                    "username":teacher.username,
+                    "access_token": access_token, 
+                    "token_type": "bearer"}
+                })
+        except Exception as e:
+              print(e)
 def getMyProfileService(db, db_user):
           try:
             return db_user

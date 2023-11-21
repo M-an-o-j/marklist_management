@@ -74,7 +74,8 @@ def updateadminService(db,admin,db_admin):
                 db_admin.username = admin.username
         if admin.name != "" and admin.name != None:   
                     db_admin.name = admin.name
-        if admin.password != "" and admin.password != None:   
+        if admin.password != "" and admin.password != None:
+                    print(admin.password)   
                     db_admin.password = hash_password(admin.password)
         if admin.email != "" and admin.email != None:   
                     db_admin.email = admin.email

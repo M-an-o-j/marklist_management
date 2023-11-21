@@ -92,3 +92,16 @@ def teacher_authorization(request: Request):
     if decode_tokenrole != "admin" and decode_tokenrole != "teacher":
         errorhandler(403, "You're not authorize")
     return decode_tokenrole
+
+def student_authorization(request: Request):
+    auth_head = request.headers.get("Authorization")
+    decode_tokenrole = jwt.decode(auth_head.split("Bearer")[1].strip(), SECRET_KEY, algorithms=["HS256"])['role']
+    print("teacher",decode_tokenrole)
+    if decode_tokenrole != "student":
+        errorhandler(403, "You're not authorize")
+    return decode_tokenrole
+
+def decode_role(request: Request):
+    auth_head = request.headers.get("Authorization")
+    decode_tokenrole = jwt.decode(auth_head.split("Bearer")[1].strip(), SECRET_KEY, algorithms=["HS256"])['role']
+    return decode_tokenrole
