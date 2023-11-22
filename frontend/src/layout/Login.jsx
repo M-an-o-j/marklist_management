@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { loaduser, loginteacher, loginstudent } from '../actions/userActions'
 import '../App.css'
+import eye from '../assets/svg/eye.svg'
 
 const Login = () => {
 
@@ -59,35 +60,36 @@ const Login = () => {
     return (
         <div className='loginPage'>
             <div className='text-center'>
-                <h1>Login Page</h1>
+                <h1 className='title-txt'>Login Page</h1>
             </div>
             <div className=' pt-3 loginDiv'>
                 <form className='p-3 border rounded-4 light-bg' onSubmit={isTeacherSelected ? handleteacherSubmit : handlestudentSubmit}>
                     <div className='d-flex justify-content-around py-1'>
                         <div>
-                            <Link className={`fw-bolder text-dark text-decoration-none p-2 px-4 rounded-3 ${isTeacherSelected ? 'bg-light' : 'null'}`} onClick={() => handleUserTypeChange('teacher')}>Teacher</Link>
+                            <Link className={`fw-bolder text-style text-dark text-decoration-none p-2 px-4 rounded-3 ${isTeacherSelected ? 'bg-light' : 'null'}`} onClick={() => handleUserTypeChange('teacher')}>Teacher</Link>
                         </div>
                         <div>
-                            <Link className={`fw-bolder text-dark text-decoration-none p-2 px-4 rounded-3 ${isStudentSelected ? 'bg-light' : 'null'}`} onClick={() => handleUserTypeChange('student')}>Student</Link>
+                            <Link className={`fw-bolder text-style text-dark text-decoration-none p-2 px-4 rounded-3 ${isStudentSelected ? 'bg-light' : 'null'}`} onClick={() => handleUserTypeChange('student')}>Student</Link>
                         </div>
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="username" className="form-label">Username</label>
-                        <input onChange={(e) => setUsername(e.target.value)} type="text" className="form-control" />
-                        <div id="emailHelp" className="form-text">We'll never share your credential's with anyone else.</div>
+                        <label htmlFor="username" className="text-style form-label">Username</label>
+                        <input onChange={(e) => setUsername(e.target.value)} type="text" className="form-control text-style" />
+                        <div id="emailHelp" className="text-style form-text">We'll never share your credential's with anyone else.</div>
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                        <input onChange={(e) => setPassword(e.target.value)} hidden={false} type={showPassword ? 'text' : 'password'} className="form-control" id="exampleInputPassword1" />
+                        <label htmlFor="exampleInputPassword1" className="text-style form-label">Password</label>
+                        <input onChange={(e) => setPassword(e.target.value)} hidden={false} type={showPassword ? 'text' : 'password'} className="form-control text-style" id="exampleInputPassword1" />
                         <input
+                            className='checkbox'
                             type="checkbox"
                             id="showPassword"
                             checked={showPassword}
                             onChange={handleTogglePassword}
                         />
-                        <label htmlFor="showPassword">Show Password</label>
+                        <label htmlFor="showPassword" className='p-2 text-style'>Show Password</label>
                     </div>
-                    <button type="submit" className="btn btn-dark">Login</button>
+                    <button type="submit" className="btn btn-dark text-style">Login</button>
                     {
                         error ?
                             <p className='text-danger fw-semibold text-center'>{`${error.data.detail}`}</p> : null
