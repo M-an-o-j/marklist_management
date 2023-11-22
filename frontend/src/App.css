@@ -1,4 +1,8 @@
-.loginForm{
+@import url('https://fonts.googleapis.com/css2?family=Sigmar&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caprasimo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Belanosima&display=swap');
+
+.light-bg{
   background-color: #d3d3d3;
 }
 
@@ -9,4 +13,25 @@
 .loginDiv{
   width: 50%;
   margin: 0 auto;
+}
+
+.title-txt{
+  font-family: 'Sigmar', sans-serif;
+}
+
+.header-txt{
+  font-family: 'Caprasimo', serif;
+}
+
+.header-txt:hover{
+  color: #d3d3d3;
+}
+
+.text-style{
+  font-family: 'Belanosima', sans-serif;
+}
+
+.home-img{
+  width:15rem;
+  height: 15rem;
 }

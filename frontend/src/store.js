@@ -1,9 +1,9 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit'
 import thunk from 'redux-thunk'
-import userdatastate from './slices/userSlices'
+import teacherDatastate from './slices/teacherSlices'
 
 const reducer = combineReducers({
-    Userdatastate : userdatastate
+    Teacherdatastate : teacherDatastate
 })
 
 const store = configureStore({

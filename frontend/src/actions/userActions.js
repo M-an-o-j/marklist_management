@@ -3,16 +3,25 @@ import {
     registeruserRequest,
     registeruserSuccess,
     registeruserError,
-    loginuserRequest,
-    loginuserSuccess,
-    loginuserError,
-    userdataRequest,
-    userdataSuccess,
-    userdataError,
-    logoutuserRequest,
-    logoutuserSuccess,
-    logoutuserError
-} from '../slices/userSlices'
+    loginteacherRequest,
+    loginteacherSuccess,
+    loginteacherError,
+    loginstudentRequest,
+    loginstudentSuccess,
+    loginstudentError,
+    teacherdataRequest,
+    teacherdataSuccess,
+    teacherdataError,
+    studentdataRequest,
+    studentdataSuccess,
+    studentdataError,
+    logoutteacherRequest,
+    logoutteacherSuccess,
+    logoutteacherError,
+    logoutstudentRequest,
+    logoutstudentSuccess,
+    logoutstudentError
+} from '../slices/teacherSlices'
 
 export const registeruser = (username, password) => async (dispatch) => {
 
@@ -29,46 +38,91 @@ export const registeruser = (username, password) => async (dispatch) => {
 }
 export const loginteacher = (username,password) => async (dispatch) => {
     try {
-        dispatch(loginuserRequest())
+        dispatch(loginteacherRequest())
         const {data} = await axios.post('http://127.0.0.1:5001/api/v1/teacher/logininTeacher/',{
             'username':username,
             'password':password
         })
         localStorage.setItem("mk_token",data.user.access_token,);
-        dispatch(loginuserSuccess(data))
+        dispatch(loginteacherSuccess(data))
     } catch (error) {
         console.log(error)
-        dispatch(loginuserError(error))
+        dispatch(loginteacherError(error.response))
     }
 }
-export const Logoutuser = async(dispatch) => {
+export const loginstudent = (username,password) => async (dispatch) => {
+    try {
+        dispatch(loginstudentRequest())
+        const {data} = await axios.post('http://127.0.0.1:5001/api/v1/student/signinstudent/',{
+            'username':username,
+            'password':password
+        })
+        localStorage.setItem("mk_token",data.user.access_token,);
+        dispatch(loginstudentSuccess(data))
+    } catch (error) {
+        console.log(error)
+        dispatch(loginstudentError(error.response))
+    }
+}
+export const Logoutteacher = async(dispatch) => {
     try{
         const token = localStorage.getItem('mk_token')
-        dispatch(logoutuserRequest());
+        dispatch(logoutteacherRequest());
         const {data} = await axios.post("http://127.0.0.1:5001/api/v1/teacher/logoutTeacher/",null,{
             headers:{
                 Authorization : `Bearer ${token}`
             }
         })
-        dispatch(logoutuserSuccess(data))
+        dispatch(logoutteacherSuccess(data))
         console.log(data)
         localStorage.removeItem('mk_token')
     }catch(error){
-        dispatch(logoutuserError(error))
+        dispatch(logoutteacherError(error))
     }
 }
-export const loaduser = async(dispatch) => {
+export const Logoutstudent = async(dispatch) => {
+    try{
+        const token = localStorage.getItem('mk_token')
+        dispatch(logoutstudentRequest());
+        const {data} = await axios.post("http://127.0.0.1:5001/api/v1/student/signoutstudent/",null,{
+            headers:{
+                Authorization : `Bearer ${token}`
+            }
+        })
+        dispatch(logoutstudentSuccess(data))
+        console.log(data)
+        localStorage.removeItem('mk_token')
+    }catch(error){
+        dispatch(logoutstudentError(error))
+    }
+}
+export const loadteacher = async(dispatch) => {
     try{
         const token = localStorage.getItem('mk_token')
         console.log(token);
-        dispatch(userdataRequest());
+        dispatch(teacherdataRequest());
         const {data} = await axios.get('http://127.0.0.1:5001/api/v1/teacher/getMyProfile/',{
             headers:{
                 Authorization : `Bearer ${token}`
             }})
-        dispatch(userdataSuccess(data));
+        dispatch(teacherdataSuccess(data));
         console.log(data.user);
     }catch(error){
-        dispatch(userdataError(error))
+        dispatch(teacherdataError(error.response))
+    }
+}
+export const loadstudent = async(dispatch) => {
+    try{
+        const token = localStorage.getItem('mk_token')
+        console.log(token);
+        dispatch(studentdataRequest());
+        const {data} = await axios.get('http://127.0.0.1:5001/api/v1/student/getMyProfile/',{
+            headers:{
+                Authorization : `Bearer ${token}`
+            }})
+        dispatch(studentdataSuccess(data));
+        console.log(data.user);
+    }catch(error){
+        dispatch(studentdataError(error.response))
     }
 }

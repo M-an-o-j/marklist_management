@@ -1,13 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Logoutuser } from '../actions/userActions'
+import { Logoutstudent, Logoutteacher } from '../actions/userActions'
 
 const Header = () => {
     const dispatch = useDispatch()
-    const { isAuthenticated, loading, error } = useSelector((state) => state.Userdatastate)
+    const { isAuthenticated,error ,role} = useSelector((state) => state.Teacherdatastate)
     const Logout = () => {
-        dispatch(Logoutuser)
+        if (role == "teacher"){
+            dispatch(Logoutteacher)
+        }
+        if(role == "student"){
+            dispatch(Logoutstudent)
+        }
     }
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -18,20 +23,20 @@ const Header = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <Link className="nav-link" to="/">Home</Link>
+                            <Link className="nav-link header-txt" to="/">Home</Link>
                         </li>
                         {isAuthenticated ?
                             <>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="#">MyProfile</Link>
+                                    <Link className="nav-link header-txt" to="/profile">MyProfile</Link>
                                 </li>
                                 <li>
-                                    <Link className="nav-link" onClick={Logout}>Logout</Link>
+                                    <Link className="nav-link header-txt" to="/" onClick={Logout}>Logout</Link>
                                 </li>
                             </>
                             :
                             <li className="nav-item">
-                                <Link className="nav-link" to="/login">Login</Link>
+                                <Link className="nav-link header-txt" to="/login">Login</Link>
                             </li>
                         }
                     </ul>
