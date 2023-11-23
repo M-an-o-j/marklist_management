@@ -1,17 +1,20 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Logoutstudent, Logoutteacher } from '../actions/userActions'
 
 const Header = () => {
     const dispatch = useDispatch()
     const { isAuthenticated,error ,role} = useSelector((state) => state.Teacherdatastate)
+    const navigate = useNavigate()
     const Logout = () => {
         if (role == "teacher"){
             dispatch(Logoutteacher)
+            navigate("/")
         }
         if(role == "student"){
             dispatch(Logoutstudent)
+            navigate("/")
         }
     }
     return (
@@ -31,7 +34,7 @@ const Header = () => {
                                     <Link className="nav-link header-txt" to="/profile">MyProfile</Link>
                                 </li>
                                 <li>
-                                    <Link className="nav-link header-txt" to="/" onClick={Logout}>Logout</Link>
+                                    <Link className="nav-link header-txt" onClick={Logout}>Logout</Link>
                                 </li>
                             </>
                             :

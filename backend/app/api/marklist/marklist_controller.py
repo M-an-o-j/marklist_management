@@ -3,6 +3,8 @@ from .marklist_service import *
 from utils.auth_handlers import *
 from api.admin.admin_model import AdminToken
 from api.teacher.teacher_model import TeacherToken
+from api.student.student_model import Student
+from .marklist_model import Subjects
 
 validation = Validations()
 
@@ -26,6 +28,15 @@ def createPaperController(db,paper,role,Auth_head):
         errorhandler(400, "All fields are required")
     if validation.empty_validation(paper):
         errorhandler(400, "Field's shouldn't be empty")
+    db_student  = db.query(Student).filter(Student.student_id == paper.student_id).first()
+    print("student",db_student)
+    if db_student == None:
+        errorhandler(404, "student not found")
+    if validation.User_delete_validation(db_student):
+        errorhandler(404,"student not found")
+    db_subject  = db.query(Subjects).filter(Subjects.subject_id == paper.subject_id).first()
+    if db_subject == None:
+        errorhandler(404, "subject not found")
     
     return createPaperService(db, paper, id)
 
@@ -37,6 +48,10 @@ def updatePaperController(db, paper,role,Auth_head, id):
         teacher_id = decode_token_id(Auth_head,model=TeacherToken,db=db)
         creator_id = teacher_id
     db_paper = db.query(Paper).filter(Paper.paper_id == id, Paper.is_deleted == False).first()
+    if db_paper == None:
+        errorhandler(404, "Paper not found")
+    if validation.User_delete_validation(db_paper):
+        errorhandler(404,"student not found")
     if validation.empty_validation(paper):
         errorhandler(400, "Field's shouldn't be empty")
 

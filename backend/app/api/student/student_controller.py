@@ -14,7 +14,11 @@ def getSingleTeacherController(db,id):
         errorhandler(404,"student not found")
     return getSingleStudentService(db,db_student)
 
-def signupStudentController(db,student):
+def signupStudentController(db,student, Auth_head, role):
+    if role == "admin":
+        admin_id = decode_token_id(Auth_head,model=AdminToken,db=db)
+    if role == "teacher":
+        teacher_id = decode_token_id(Auth_head,model=TeacherToken,db=db)
     if validation.None_validation(
         student.name,student.email,student.phone_number,student.username,student.password
     ):
@@ -23,6 +27,8 @@ def signupStudentController(db,student):
         errorhandler(400, "Field's shouldn't be empty")
     if validation.duplication_username_validate(db,Student,student.username):
          errorhandler(400,"username is not avaiable")
+    if len(student.username ) < 5:
+         errorhandler(400, "username should have more than 5 characters")
     if not validation.email_validations(student.email):
         errorhandler(400, "Invalid email")
     if validation.duplication_email_validate(db,Student,student.email):
@@ -62,20 +68,17 @@ def getMyProfileController(db,Auth_head):
 
 def updateStudentController(db,Auth_head,student,id,role):
     if role == "admin":
-        print("admin")
         admin_id = decode_token_id(Auth_head,model=AdminToken,db=db)
     if role == "teacher":
-        print("teacher token")
         teacher_id = decode_token_id(Auth_head,model=TeacherToken,db=db)
-        print("teacher id ", teacher_id)
     if role == "student":
-        print("student")
         student_id = decode_token_id(Auth_head,model=StudentToken,db=db)
     db_student = db.query(Student).filter(Student.student_id == id).first()
-    print("username",db_student.username)
+    if db_student == None:
+         errorhandler(404, "student not found")
     if db_student != None:
         if validation.User_delete_validation(db_student):
-            errorhandler(400, "user not found")
+            errorhandler(400, "student not found")
     if validation.duplication_username_validate(db,Student,student.username):
          errorhandler(400,"username is not avaiable")
     if student.email:
@@ -98,9 +101,13 @@ def signoutStudentController(db,Auth_head,id,role):
         if role == "teacher":
             teacher_id = decode_token_id(Auth_head,model=TeacherToken,db=db)
         if id != None:
-            db_student = db.query(Student).filter(Student.student_id == id).first()
+                db_student = db.query(Student).filter(Student.student_id == id).first()
         else:
-            errorhandler(400, "id must for teacher and admin")
+                errorhandler(400, "id must for teacher and admin")
+    if role == "student":
+            print("student is here")
+            if id != None:
+                 errorhandler(403, "student can't logout another student")
     if id == None:
         student_id = decode_token_id(Auth_head,model=StudentToken,db=db)
         db_student = db.query(Student).filter(Student.student_id == student_id).first()
@@ -114,8 +121,9 @@ def signoutStudentController(db,Auth_head,id,role):
         db_token = db.query(StudentToken).filter(StudentToken.student_id == id).first()
     if validation.User_delete_validation(db_student):
             errorhandler(404,"User not found")   
+    print(db_student)
     if db_student.is_active == False:
-                 errorhandler(400, f"{id} is not loggedin yet")
+                 errorhandler(400, f"{db_student.student_id} is not loggedin yet")
 
     return signOutStudentService(db, db_student,db_token)
 
@@ -125,6 +133,8 @@ def deleteStudentController(db,Auth_head,id,role):
             if role == "teacher":
                 student_id = decode_token_id(Auth_head,model=TeacherToken,db=db)
             db_student = db.query(Student).filter(Student.student_id == id).first()
+            if id == None:
+                 errorhandler(400," ID must")
             if db_student == None:
                 errorhandler(404,"student not found")           
             if validation.User_delete_validation(db_student):

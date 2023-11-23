@@ -23,6 +23,8 @@ def signupController(db,teacher,Auth_head):
         errorhandler(400, "Field's shouldn't be empty")
     if validation.duplication_username_validate(db,Teacher,teacher.username):
          errorhandler(400,"username is not avaiable")
+    if len(teacher.username ) < 5:
+         errorhandler(400, "username should have more than 5 characters")
     if not validation.email_validations(teacher.email):
         errorhandler(400, "Invalid email")
     if validation.duplication_email_validate(db,Teacher,teacher.email):
@@ -60,9 +62,11 @@ def getMyProfileController(db,Auth_head):
 def updateTeacherController(db,teacher,Auth_head,id):
     admin_id = decode_token_id(Auth_head, model=AdminToken, db=db)
     db_teacher = db.query(Teacher).filter(Teacher.teacher_id == id).first()
+    if db_teacher == None:
+         errorhandler(404, "teacher not found")
     if db_teacher != None:
         if validation.User_delete_validation(db_teacher):
-            errorhandler(400, "user not found")
+            errorhandler(400, "teacher not found")
     if teacher.email:
         if not validation.email_validations(teacher.email):
             errorhandler(400, "Invalid email")
@@ -77,8 +81,12 @@ def updateTeacherController(db,teacher,Auth_head,id):
 def signOutController(db,Auth_head,id,role):
             if role != "teacher":
                 admin_id = decode_token_id(Auth_head, model=AdminToken, db=db)
+                if id == None:
+                     errorhandler(400, "admin must use id to logout teacher")
             if role != "admin":
                 teacher_id = decode_token_id(Auth_head, model=TeacherToken, db=db)
+                if id != None:
+                     errorhandler(403, "teacher can't logout another teacher")
             if id != None:
                 db_teacher = db.query(Teacher).filter(Teacher.teacher_id == id).first()
                 if db_teacher == None:
@@ -87,7 +95,7 @@ def signOutController(db,Auth_head,id,role):
                 db_teacher = db.query(Teacher).filter(Teacher.teacher_id == teacher_id).first()
             
             if validation.User_delete_validation(db_teacher):
-                  errorhandler(404,"User not found")   
+                  errorhandler(404,"teacher not found")   
             if db_teacher.is_active == False:
                  errorhandler(400, f"{id} is not loggedin yet")
 
@@ -107,6 +115,6 @@ def deleteTeacherController(db,Auth_head,id):
                      errorhandler(404,"teacher not found")
                 print(db_teacher, "teacher")
             if validation.User_delete_validation(db_teacher):
-                  errorhandler(404,"User not found")   
+                  errorhandler(404,"teacher not found")   
 
             return deleteTeacherService(db, db_teacher)

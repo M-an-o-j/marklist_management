@@ -23,7 +23,7 @@ async def signupTeacher(teacher: TeacherSignUp,Auth_head:str = Depends(get_autho
 async def signinTeacher(teacher: TeacherSignIn,db: Session = Depends(get_session)):
     return signinController(db,teacher)
 
-@router.get("/teacher/getMyProfile",dependencies = [Depends(httpbearer)], response_model=TeacherResponse, tags=["Teacher"], summary="Teacher can fetch their own profile here")
+@router.get("/teacher/getMyProfile/",dependencies = [Depends(httpbearer)], response_model=TeacherResponse, tags=["Teacher"], summary="Teacher can fetch their own profile here")
 async def getMyProfile(Auth_head:str = Depends(get_authorization_header),role:str = Depends(teacher_authorization),db: Session = Depends(get_session)):
     if role == "teacher":
         return getMyProfileController(db,Auth_head)
@@ -34,7 +34,7 @@ async def getMyProfile(Auth_head:str = Depends(get_authorization_header),role:st
 async def updateTeacher(teacher: TeacherSignUp,id:int,Auth_head:str = Depends(get_authorization_header),role:str = Depends(admin_authorization),db: Session = Depends(get_session)):
     return updateTeacherController(db,teacher,Auth_head,id)
 
-@router.post("/teacher/logoutTeacher",dependencies = [Depends(httpbearer)], tags=["Teacher"], summary="Teacher can signout here")
+@router.post("/teacher/logoutTeacher/",dependencies = [Depends(httpbearer)], tags=["Teacher"], summary="Teacher can signout here")
 async def signoutTeacher(id:int=None,Auth_head:str = Depends(get_authorization_header),role:str = Depends(teacher_authorization),db: Session = Depends(get_session)):
     return signOutController(db,Auth_head,id,role)
 

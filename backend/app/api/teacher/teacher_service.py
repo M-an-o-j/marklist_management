@@ -75,7 +75,7 @@ def updateTeacherService(db,id,teacher):
     try:
         db_teacher = db.query(Teacher).filter(Teacher.teacher_id == id).first()
         if teacher.username != "" and teacher.username != None:
-                db_teacher.username = db_teacher.username
+                db_teacher.username = teacher.username
         if teacher.name != "" and teacher.name != None:   
                     db_teacher.name = teacher.name
         if teacher.password != "" and teacher.password != None:   

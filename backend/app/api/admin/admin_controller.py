@@ -25,6 +25,8 @@ def signupController(db,admin,Auth_head):
         errorhandler(400, "Field's shouldn't be empty")
     if validation.duplication_username_validate(db,Admin,admin.username):
          errorhandler(400,"username is not avaiable")
+    if len(admin.username ) < 5:
+         errorhandler(400, "username should have more than 5 characters")
     if not validation.email_validations(admin.email):
         errorhandler(400, "Invalid email")
     if validation.duplication_email_validate(db,Admin,admin.email):
@@ -66,6 +68,8 @@ def getMyProfileController(db,Auth_head):
 def updateadminController(db,admin,Auth_head,id):
     admin_id = decode_token_id(Auth_head,model=AdminToken,db=db)
     db_admin = db.query(Admin).filter(Admin.admin_id == id).first()
+    if db_admin == None:
+         errorhandler(404, "user not found")
     if validation.empty_validation(admin):
         errorhandler(400, "Field's shouldn't be empty")
     if db_admin != None:
@@ -89,20 +93,24 @@ def updateadminController(db,admin,Auth_head,id):
 def signOutController(db,Auth_head,id):
             admin_id = decode_token_id(Auth_head,model=AdminToken,db=db)
             db_admin = db.query(Admin).filter(Admin.admin_id == id).first()
+            if db_admin == None:
+                 errorhandler(404,"user not found")
+            if validation.User_delete_validation(db_admin):
+                  errorhandler(404,"User not found")   
             db_token = db.query(AdminToken).filter(AdminToken.admin_id == db_admin.admin_id).first()
             print(db_token)
             if db_token == None:
                   errorhandler(400,"token is expired")
             if db_admin.is_active == False:
                  errorhandler(400, f"{id} is not loggedin yet")
-            if validation.User_delete_validation(db_admin):
-                  errorhandler(404,"User not found")   
 
             return signOutService(db, db_admin,db_token)
 
 def deleteadminController(db,Auth_head,id):
             admin_id = decode_token_id(Auth_head,model=AdminToken,db=db)
             db_admin = db.query(Admin).filter(Admin.admin_id == id).first()
+            if db_admin == None:
+                 errorhandler(404, "User not found")
             print(db_admin.username)
             if validation.User_delete_validation(db_admin):
                   errorhandler(404,"User not found")   
