@@ -1,18 +1,20 @@
 import React from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Logoutstudent, Logoutteacher } from '../actions/userActions'
+import { Logoutteacher } from '../actions/teacherActions'
+import { Logoutstudent } from '../actions/studentActions'
 
 const Header = () => {
     const dispatch = useDispatch()
-    const { isAuthenticated,error ,role} = useSelector((state) => state.Teacherdatastate)
+    const { TisAuthenticated,Trole} = useSelector((state) => state.Teacherdatastate)
+    const { SisAuthenticated,Srole} = useSelector((state) => state.Studentdatastate)
     const navigate = useNavigate()
     const Logout = () => {
-        if (role == "teacher"){
+        if (Trole == "teacher"){
             dispatch(Logoutteacher)
             navigate("/")
         }
-        if(role == "student"){
+        if(Srole == "student"){
             dispatch(Logoutstudent)
             navigate("/")
         }
@@ -28,7 +30,7 @@ const Header = () => {
                         <li className="nav-item">
                             <Link className="nav-link header-txt" to="/">Home</Link>
                         </li>
-                        {isAuthenticated ?
+                        {TisAuthenticated || SisAuthenticated ?
                             <>
                                 <li className="nav-item">
                                     <Link className="nav-link header-txt" to="/profile">MyProfile</Link>

@@ -1,214 +1,131 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const userslice = createSlice({
+const teacherslice = createSlice({
     name: 'teacherslice',
     initialState: {
-        loading: false,
-        isAuthenticated : false,
-        user: null,
-        userdata:null,
-        role:null
+        Tloading: false,
+        TisAuthenticated : false,
+        teacher: null,
+        teacherdata:null,
+        Trole:"teacher"
     },
     reducers: {
-        registeruserRequest(state, action) {
+        registerteacherRequest(state, action) {
             return {
                 ...state,
-                loading: true
+                Tloading: true
             }
         },
-        registeruserSuccess(state, action) {
+        registerteacherSuccess(state, action) {
             return {
-                loading: false,
-                isAuthenticated:true,
-                user:action.payload,
-                userdata:null
+                Tloading: false,
+                TisAuthenticated:true,
+                teacher:action.payload,
+                teacherdata:null
             }
         },
-        registeruserError(state, action) {
+        registerteacherError(state, action) {
             return {
-                loading: false,
-                isAuthenticated:false,
-                userdata:null,
-                error:action.payload
+                Tloading: false,
+                TisAuthenticated:false,
+                teacherdata:null,
+                Terror:action.payload
             }
         },
         loginteacherRequest(state, action) {
             return {
                 ...state,
-                loading: true,
-                userdata:null
+                Tloading: true,
+                teacherdata:null
             }
         },
         loginteacherSuccess(state, action) {
             return {
-                role: "teacher",
-                loading: false,
-                isAuthenticated:true,
-                user:action.payload,
-                userdata:null
+                Trole: "teacher",
+                Tloading: false,
+                TisAuthenticated:true,
+                teacher:action.payload,
+                teacherdata:null
             }
         },
         loginteacherError(state, action) {
             return {
                 ...state,
-                loading: false,
-                isAuthenticated:false,
-                error:action.payload,
-                userdata:null
-            }
-        },
-        loginstudentRequest(state, action) {
-            return {
-                ...state,
-                loading: true,
-                userdata:null
-            }
-        },
-        loginstudentSuccess(state, action) {
-            return {
-                role: "student",
-                loading: false,
-                isAuthenticated:true,
-                user:action.payload,
-                userdata:null
-            }
-        },
-        loginstudentError(state, action) {
-            return {
-                ...state,
-                loading: false,
-                isAuthenticated:false,
-                error:action.payload,
-                userdata:null
+                Tloading: false,
+                TisAuthenticated:false,
+                Terror:action.payload,
+                teacherdata:null
             }
         },
         teacherdataRequest(state, action) {
             return {
-                isAuthenticated:false,
-                loading: true,
-                user:null,
-                userdata:null
+                TisAuthenticated:false,
+                Tloading: true,
+                teacher:null,
+                teacherdata:null
             }
         },
         teacherdataSuccess(state, action) {
             return {
-                role: "teacher",
-                loading: false,
-                isAuthenticated:true,
-                user:action.payload,
-                userdata:action.payload
+                Trole: "teacher",
+                Tloading: false,
+                TisAuthenticated:true,
+                teacher:action.payload,
+                teacherdata:action.payload
             }
         },
         teacherdataError(state, action) {
             return {
-                loading: false,
-                isAuthenticated:false,
-                error:action.payload,
-                userdata:null
-            }
-        },
-        studentdataRequest(state, action) {
-            return {
-                isAuthenticated:false,
-                loading: true,
-                user:null,
-                userdata:null
-            }
-        },
-        studentdataSuccess(state, action) {
-            return {
-                role: "student",
-                loading: false,
-                isAuthenticated:true,
-                user:action.payload,
-                userdata:action.payload
-            }
-        },
-        studentdataError(state, action) {
-            return {
-                loading: false,
-                isAuthenticated:false,
-                error:action.payload,
-                userdata:null
+                Tloading: false,
+                TisAuthenticated:false,
+                Terror:action.payload,
+                teacherdata:null
             }
         },
         
         logoutteacherRequest(state, action) {
             return {
                 ...state,
-                loading: true,
-                userdata:null,
+                Tloading: true,
+                teacherdata:null,
             }
         },
         logoutteacherSuccess(state, action) {
             return {
-                loading: false,
-                isAuthenticated:false,
-                user:null,
+                Tloading: false,
+                TisAuthenticated:false,
+                teacher:null,
                 message:action.payload,
-                userdata:null
+                teacherdata:null
             }
         },
         logoutteacherError(state, action) {
             return {
-                loading: false,
-                isAuthenticated:false,
-                error:action.payload,
-                userdata:null
+                Tloading: false,
+                TisAuthenticated:false,
+                Terror:action.payload,
+                teacherdata:null
             }
-        },
-        logoutstudentRequest(state, action) {
-            return {
-                ...state,
-                loading: true,
-                userdata:null,
-            }
-        },
-        logoutstudentSuccess(state, action) {
-            return {
-                loading: false,
-                isAuthenticated:false,
-                user:null,
-                message:action.payload,
-                userdata:null
-            }
-        },
-        logoutstudentError(state, action) {
-            return {
-                loading: false,
-                isAuthenticated:false,
-                error:action.payload,
-                userdata:null
-            }
-        },
+        }
 
     }
 })
 
-const { actions, reducer } = userslice;
+const { actions, reducer } = teacherslice;
 
 export const {
-    registeruserRequest, 
-    registeruserSuccess, 
-    registeruserError,
+    registerteacherRequest, 
+    registerteacherSuccess, 
+    registerteacherError,
     loginteacherRequest,
     loginteacherSuccess,
     loginteacherError,
-    loginstudentRequest,
-    loginstudentSuccess,
-    loginstudentError,
     teacherdataRequest,
     teacherdataSuccess,
     teacherdataError,
-    studentdataRequest,
-    studentdataSuccess,
-    studentdataError,
     logoutteacherRequest,
     logoutteacherSuccess,
-    logoutteacherError,
-    logoutstudentRequest,
-    logoutstudentSuccess,
-    logoutstudentError
+    logoutteacherError
 } = actions;
 
 export default reducer;

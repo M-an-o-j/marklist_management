@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { loaduser, loginteacher, loginstudent } from '../actions/userActions'
+import { loginteacher } from '../actions/teacherActions'
 import '../App.css'
 import eye from '../assets/svg/eye.svg'
+import { loginstudent } from '../actions/studentActions'
 
 const Login = () => {
 
@@ -12,7 +13,8 @@ const Login = () => {
     const [hide, sethide] = useState(false)
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const { isAuthenticated, loading, error, user } = useSelector((state) => state.Teacherdatastate)
+    const { TisAuthenticated, Terror } = useSelector((state) => state.Teacherdatastate)
+    const { SisAuthenticated, Serror } = useSelector((state) => state.Studentdatastate)
     const [showPassword, setShowPassword] = useState(false);
 
     const handleTogglePassword = () => {
@@ -23,10 +25,13 @@ const Login = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isAuthenticated) {
+        if (SisAuthenticated) {
             navigate("/")
         }
-    }, [isAuthenticated])
+        if (TisAuthenticated) {
+            navigate("/")
+        }
+    }, [SisAuthenticated, TisAuthenticated])
 
     const handleUserTypeChange = (type) => {
         if (type === 'student') {
@@ -41,20 +46,13 @@ const Login = () => {
     const handleteacherSubmit = async (e) => {
         e.preventDefault()
         dispatch(loginteacher(username, password))
-
-        if (isAuthenticated != false) {
-            navigate("/")
-        }
+        // navigate("/")
 
     }
     const handlestudentSubmit = async (e) => {
         e.preventDefault()
         dispatch(loginstudent(username, password))
-
-        if (isAuthenticated != false) {
-            navigate("/")
-        }
-
+        // navigate("/")
     }
 
     return (
@@ -91,8 +89,12 @@ const Login = () => {
                     </div>
                     <button type="submit" className="btn btn-dark text-style">Login</button>
                     {
-                        error ?
-                            <p className='text-danger fw-semibold text-center'>{`${error.data.detail}`}</p> : null
+                        Serror ?
+                            <p className='text-danger fw-semibold text-center'>{`${Serror.data.detail}`}</p> : null
+                    }
+                    {
+                        Terror ?
+                            <p className='text-danger fw-semibold text-center'>{`${Terror.data.detail}`}</p> : null
                     }
 
                 </form>
