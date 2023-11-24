@@ -3,13 +3,14 @@ import { marklistdataError, marklistdataRequest, marklistdataSuccess } from "../
 
 export const loadmarklist = async (dispatch) => {
     try {
-        const token = localStorage.getItem('mk_token')
+        const student_token = localStorage.getItem('mk_student_token')
+        const teacher_token = localStorage.getItem('mk_teacher_token')
         dispatch(marklistdataRequest());
-        if (token) {
+        if (student_token|| teacher_token) {
 
             const { data } = await axios.get('http://127.0.0.1:5001/api/v1/marklist/getAllmarklist', {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${student_token ? student_token : teacher_token}`
                 }
             })
             dispatch(marklistdataSuccess(data));

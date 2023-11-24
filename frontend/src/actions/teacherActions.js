@@ -53,7 +53,6 @@ export const Logoutteacher = async (dispatch) => {
             }
         })
         dispatch(logoutteacherSuccess(data))
-        console.log(data)
         localStorage.removeItem('mk_teacher_token')
     } catch (error) {
         dispatch(logoutteacherError(error))
@@ -61,7 +60,7 @@ export const Logoutteacher = async (dispatch) => {
 }
 export const loadteacher = async (dispatch) => {
     try {
-        const token = localStorage.getItem('mk_token')
+        const token = localStorage.getItem('mk_teacher_token')
         console.log(token);
         dispatch(teacherdataRequest());
         if (token) {

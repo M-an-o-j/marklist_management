@@ -34,7 +34,7 @@ const App = () => {
               <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/login' element={<Login />} />
-                <Route path='/profile' element={<Profile />} />
+                <Route path='/profile' element={SisAuthenticated || TisAuthenticated ? <Profile /> : <Navigate to={"/"} />} />
                 <Route path='/marklist' element={SisAuthenticated || TisAuthenticated ? <Marklist /> : <Navigate to={"/"} />} />
               </Routes>
             </div>

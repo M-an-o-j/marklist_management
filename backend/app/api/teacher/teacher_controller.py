@@ -20,7 +20,8 @@ def signupController(db,teacher,Auth_head):
     ):
         errorhandler(400, "All fields are required")
     if validation.empty_validation(teacher):
-        errorhandler(400, "Field's shouldn't be empty")
+        key = validation.empty_key_validation(teacher)
+        errorhandler(400, f"{key} shouldn't be empty")
     if validation.duplication_username_validate(db,Teacher,teacher.username):
          errorhandler(400,"username is not avaiable")
     if len(teacher.username ) < 5:

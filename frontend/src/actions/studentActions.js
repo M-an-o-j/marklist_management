@@ -8,7 +8,8 @@ export const loginstudent = (username, password) => async (dispatch) => {
             'username': username,
             'password': password
         })
-        localStorage.setItem("mk_token", data.user.access_token,);
+        localStorage.setItem("mk_student_token", data.access_token,);
+        console.log(data);
         dispatch(loginstudentSuccess(data))
     } catch (error) {
         console.log(error)
@@ -18,7 +19,7 @@ export const loginstudent = (username, password) => async (dispatch) => {
 
 export const Logoutstudent = async (dispatch) => {
     try {
-        const token = localStorage.getItem('mk_token')
+        const token = localStorage.getItem('mk_student_token')
         dispatch(logoutstudentRequest());
         const { data } = await axios.post("http://127.0.0.1:5001/api/v1/student/signoutstudent/", null, {
             headers: {
@@ -26,8 +27,7 @@ export const Logoutstudent = async (dispatch) => {
             }
         })
         dispatch(logoutstudentSuccess(data))
-        console.log(data)
-        localStorage.removeItem('mk_token')
+        localStorage.removeItem('mk_student_token')
     } catch (error) {
         dispatch(logoutstudentError(error))
     }
@@ -35,8 +35,8 @@ export const Logoutstudent = async (dispatch) => {
 
 export const loadstudent = async (dispatch) => {
     try {
-        const token = localStorage.getItem('mk_token')
-        console.log(token);
+        const token = localStorage.getItem('mk_student_token')
+        console.log("studenttoken",token);
         dispatch(studentdataRequest());
         if (token) {
 

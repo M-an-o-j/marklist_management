@@ -5,6 +5,7 @@ import { loginteacher } from '../actions/teacherActions'
 import '../App.css'
 import eye from '../assets/svg/eye.svg'
 import { loginstudent } from '../actions/studentActions'
+import { ThreeCircles } from 'react-loader-spinner'
 
 const Login = () => {
 
@@ -13,8 +14,8 @@ const Login = () => {
     const [hide, sethide] = useState(false)
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const { TisAuthenticated, Terror } = useSelector((state) => state.Teacherdatastate)
-    const { SisAuthenticated, Serror } = useSelector((state) => state.Studentdatastate)
+    const { TisAuthenticated, Terror, Tloading } = useSelector((state) => state.Teacherdatastate)
+    const { SisAuthenticated, Serror, Sloading } = useSelector((state) => state.Studentdatastate)
     const [showPassword, setShowPassword] = useState(false);
 
     const handleTogglePassword = () => {
@@ -87,17 +88,16 @@ const Login = () => {
                         />
                         <label htmlFor="showPassword" className='p-2 text-style'>Show Password</label>
                     </div>
-                    <button type="submit" className="btn btn-dark text-style">Login</button>
+                    <button type="submit" className="btn btn-dark text-style w-100">Login</button>
+
+                </form>
                     {
                         Serror ?
                             <p className='text-danger fw-semibold text-center'>{`${Serror.data.detail}`}</p> : null
                     }
-                    {
-                        Terror ?
+                    {   Terror ?
                             <p className='text-danger fw-semibold text-center'>{`${Terror.data.detail}`}</p> : null
                     }
-
-                </form>
             </div>
         </div>
     )

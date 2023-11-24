@@ -9,20 +9,20 @@ const Header = () => {
     const { TisAuthenticated,Trole} = useSelector((state) => state.Teacherdatastate)
     const { SisAuthenticated,Srole} = useSelector((state) => state.Studentdatastate)
     const navigate = useNavigate()
-    useEffect(() => {
-        if (Trole == "teacher") {
-          dispatch(loadteacher)
-        }
-        if (Srole == "student") {
-          dispatch(loadstudent)
-        }
-      }, [])
+    // useEffect(() => {
+    //     if (Trole == "teacher") {
+    //       dispatch(loadteacher)
+    //     }
+    //     if (Srole == "student") {
+    //       dispatch(loadstudent)
+    //     }
+    //   }, [])
     const Logout = () => {
-        if (Trole == "teacher"){
+        if (Trole == "teacher" && TisAuthenticated){
             dispatch(Logoutteacher)
             navigate("/")
         }
-        if(Srole == "student"){
+        if(Srole == "student" && SisAuthenticated){
             dispatch(Logoutstudent)
             navigate("/")
         }

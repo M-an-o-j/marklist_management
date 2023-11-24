@@ -38,7 +38,7 @@ const teacherslice = createSlice({
         },
         loginteacherSuccess(state, action) {
             return {
-                Trole: "teacher",
+                ...state,
                 Tloading: false,
                 TisAuthenticated:true,
                 teacher:action.payload
@@ -62,7 +62,7 @@ const teacherslice = createSlice({
         },
         teacherdataSuccess(state, action) {
             return {
-                Trole: "teacher",
+                ...state,
                 Tloading: false,
                 TisAuthenticated:true,
                 teacher:action.payload
@@ -70,6 +70,7 @@ const teacherslice = createSlice({
         },
         teacherdataError(state, action) {
             return {
+                ...state,
                 Tloading: false,
                 TisAuthenticated:false,
                 Terror:action.payload
@@ -84,6 +85,7 @@ const teacherslice = createSlice({
         },
         logoutteacherSuccess(state, action) {
             return {
+                ...state,
                 Tloading: false,
                 TisAuthenticated:false,
                 teacher:null,
@@ -92,6 +94,7 @@ const teacherslice = createSlice({
         },
         logoutteacherError(state, action) {
             return {
+                ...state,
                 Tloading: false,
                 TisAuthenticated:false,
                 Terror:action.payload

@@ -48,19 +48,22 @@ def signupStudentService(db,student):
 def signinStudentService(db, student):
     db_student = authenticate_user(db,student.username, student.password,Student)
     db_student.is_active = True
-    signin_log = StudentSigninLogs(student_id= db_student.student_id, loggedin = datetime.now())
     access_token = create_access_token(data={"sub": str(db_student.student_id),"role":"student"}, expires_delta=expiry_del)
     db_token = StudentToken(student_id= db_student.student_id, token=access_token)
-    db.add(signin_log)
     db.add(db_token)
     db.commit()           
-    return JSONResponse({
-            "message":"User loggedin successfully",
-            "user":{
-                "username":db_student.username,
-                "access_token": access_token, 
-                "token_type": "bearer"}
-            })
+    return JSONResponse(status_code=200, content={
+            "message": "User loggedin successfully",
+            "status": "ok",
+            "username": db_student.username,
+            "access_token": access_token,
+            "token_type": "bearer",
+            "email": db_student.email,
+            "name": db_student.name,
+            "phone_number": db_student.phone_number,
+            "student_id": db_student.student_id,
+            "username": db_student.username
+        })
 
 def getMyProfileService(db,db_student):
     try:
@@ -97,11 +100,6 @@ def updateStudentService(db,student, db_student):
 def signOutStudentService(db, db_student, db_token):
         try:
             db_student.is_active = False
-            signin_user = db.query(StudentSigninLogs).filter(StudentSigninLogs.student_id == db_student.student_id).all()
-            list_signin = [i.id for i in signin_user]
-            last_login_id = max(list_signin)
-            last_login = db.query(StudentSigninLogs).filter(StudentSigninLogs.id == last_login_id).first()
-            last_login.loggedout = datetime.now() 
             db.delete(db_token)
             db.commit()
             return JSONResponse({

@@ -24,7 +24,8 @@ def signupStudentController(db,student, Auth_head, role):
     ):
         errorhandler(400, "All fields are required")
     if validation.empty_validation(student):
-        errorhandler(400, "Field's shouldn't be empty")
+        key = validation.empty_key_validation(student)
+        errorhandler(400, f"{key} shouldn't be empty")
     if validation.duplication_username_validate(db,Student,student.username):
          errorhandler(400,"username is not avaiable")
     if len(student.username ) < 5:
@@ -44,7 +45,8 @@ def signinStudentController(db,student):
     ):
         errorhandler(400, "All fields are required")
     if validation.empty_validation(student):
-        errorhandler(400, "Field's shouldn't be empty")
+        key = validation.empty_key_validation(student)
+        errorhandler(400, f"{key} shouldn't be empty")
     db_student = db.query(Student).filter(Student.username == student.username).first()
     print(db_student)
     if db_student != None:

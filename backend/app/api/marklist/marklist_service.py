@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse
 def getAllMarklistService(db):
     try:
         db_papers= db.query(Paper).filter(Paper.is_deleted == False).all()
-        time.sleep(2)
+        # time.sleep(2)
         return db_papers
     except Exception as e:
         db.rollback()

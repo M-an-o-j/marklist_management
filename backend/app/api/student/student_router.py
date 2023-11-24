@@ -20,7 +20,7 @@ async def getSinglestudent(id:int,db: Session = Depends(get_session)):
 async def signupstudent(student: StudentSignup,Auth_head:str = Depends(get_authorization_header),role : str = Depends(teacher_authorization),db: Session = Depends(get_session)):
     return signupStudentController(db,student, Auth_head, role)
 
-@router.post("/student/signinstudent",response_model=StudentResonse, tags=["Student"])
+@router.post("/student/signinstudent", tags=["Student"])
 async def signinstudent(student: StudentSignin,db: Session = Depends(get_session)):
     return signinStudentController(db,student)
 
