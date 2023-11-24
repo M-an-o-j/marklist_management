@@ -40,7 +40,8 @@ def signinController(db,teacher):
     ):
         errorhandler(400, "All fields are required")
     if validation.empty_validation(teacher):
-        errorhandler(400, "Field's shouldn't be empty")
+        key = validation.empty_key_validation(teacher)
+        errorhandler(400, f"{key} shouldn't be empty")
     db_teacher = authenticate_user(db,teacher.username, teacher.password,Teacher)
     if db_teacher != None:
         if validation.User_delete_validation(db_teacher):

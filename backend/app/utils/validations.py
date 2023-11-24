@@ -25,6 +25,11 @@ class Validations:
                 if value == "":
                     return True
                 
+        def empty_key_validation(self, obj):
+            for key, value in obj:
+                if value == "":
+                    return key
+                
         def login_validation(Self,user):
             if user.is_active == True:
                 return True

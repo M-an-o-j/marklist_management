@@ -1,14 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Logoutteacher } from '../actions/teacherActions'
-import { Logoutstudent } from '../actions/studentActions'
+import { Logoutteacher, loadteacher } from '../actions/teacherActions'
+import { Logoutstudent, loadstudent } from '../actions/studentActions'
 
 const Header = () => {
     const dispatch = useDispatch()
     const { TisAuthenticated,Trole} = useSelector((state) => state.Teacherdatastate)
     const { SisAuthenticated,Srole} = useSelector((state) => state.Studentdatastate)
     const navigate = useNavigate()
+    useEffect(() => {
+        if (Trole == "teacher") {
+          dispatch(loadteacher)
+        }
+        if (Srole == "student") {
+          dispatch(loadstudent)
+        }
+      }, [])
     const Logout = () => {
         if (Trole == "teacher"){
             dispatch(Logoutteacher)

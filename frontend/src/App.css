@@ -40,3 +40,16 @@
   width: 10%;
   padding: 5%;
 } */
+
+.loaderDiv{
+  height: 100vh;
+  width: 100vw;
+}
+.loader{
+  margin: auto auto;
+}
+
+.school-img{
+  width: 20rem;
+  height: 20rem;
+}

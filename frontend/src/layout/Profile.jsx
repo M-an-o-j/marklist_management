@@ -1,9 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { loadteacher } from '../actions/teacherActions'
+import { loadstudent } from '../actions/studentActions'
 
 const Profile = () => {
   const { teacher, Trole } = useSelector((state) => state.Teacherdatastate)
   const { student, Srole } = useSelector((state) => state.Studentdatastate)
+  const dispatch = useDispatch()
+
+  // useEffect(() => {
+  //   if (Trole == "teacher") {
+  //     dispatch(loadteacher)
+  //   }
+  //   if (Srole == "student") {
+  //     dispatch(loadstudent)
+  //   }
+  // }, [dispatch])
+
   return (
     <div>
       {student &&

@@ -19,7 +19,7 @@ async def getSingleTeacher(id:int,db: Session = Depends(get_session)):
 async def signupTeacher(teacher: TeacherSignUp,Auth_head:str = Depends(get_authorization_header),role:str = Depends(admin_authorization),db: Session = Depends(get_session)):
     return signupController(db, teacher,Auth_head)
 
-@router.post("/teacher/logininTeacher/", response_model=TeacherResponse, tags=["Teacher"], summary="Teachers can signin here")
+@router.post("/teacher/logininTeacher/",  tags=["Teacher"], summary="Teachers can signin here")
 async def signinTeacher(teacher: TeacherSignIn,db: Session = Depends(get_session)):
     return signinController(db,teacher)
 
