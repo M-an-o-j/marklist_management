@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import Profile from './layout/Profile';
 import Marklist from './layout/Marklist';
 import { loadstudent } from './actions/studentActions';
+import Students from './layout/students';
+import Stud_record from './layout/Stud_record';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -36,6 +38,8 @@ const App = () => {
                 <Route path='/login' element={<Login />} />
                 <Route path='/profile' element={SisAuthenticated || TisAuthenticated ? <Profile /> : <Navigate to={"/"} />} />
                 <Route path='/marklist' element={SisAuthenticated || TisAuthenticated ? <Marklist /> : <Navigate to={"/"} />} />
+                <Route path='/students' element={SisAuthenticated || TisAuthenticated ? <Students /> : <Navigate to={"/"} />} />
+                <Route path='/students-record' element={SisAuthenticated || TisAuthenticated ? <Stud_record /> : <Navigate to={"/"} />} />
               </Routes>
             </div>
           </div>

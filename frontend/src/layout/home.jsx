@@ -25,10 +25,10 @@ const Home = () => {
     <>
       <div className='text-center' data-aos="fade-in">
         <h1 className='title-txt'><span className=''> Marklist </span> Management</h1>
-        {teacher ?
+        {teacher && TisAuthenticated ?
           <h4 className='title-txt'>{`Welcome ${teacher.name}`}</h4> : null
         }
-        {student ?
+        {student && SisAuthenticated?
           <h4 className='title-txt'>{`Welcome ${student.name}`}</h4> : null
         }
       </div>
@@ -45,28 +45,42 @@ const Home = () => {
       </div>
 
       {Trole == "teacher" && teacher ?
-        <div className='d-flex justify-content-between p-5 gap-3'>
-          <div className='d-flex justify-content-around w-100 light-bg p-5 border border-3 border-dark rounded-3 gap-3'>
-            <div className=''>
-              <img src={marklistsvg} className='home-img' alt="" />
+        <>
+          <div className='d-flex justify-content-between p-5 gap-3'>
+            <div className='d-flex justify-content-around w-100 light-bg p-5 border border-3 border-dark rounded-3 gap-3'>
+              <div className=''>
+                <img src={marklistsvg} className='home-img' alt="" />
+              </div>
+              <div>
+                <h1 className='text-style'>Marklist</h1>
+                <p className='text-wrap text-style'>Teacher can create, update, <br /> delete and read marklist here</p>
+                <button className='btn btn-primary'><Link className="nav-link text-style" to={'/marklist'}>Click here</Link></button>
+              </div>
             </div>
-            <div>
-              <h1 className='text-style'>Marklist</h1>
-              <p className='text-wrap text-style'>Teacher can create, update, <br /> delete and read marklist here</p>
-              <button className='btn btn-primary'><Link className="nav-link text-style" to={'/marklist'}>Click here</Link></button>
+            <div className='d-flex justify-content-around w-100 light-bg p-5 border border-3 border-dark rounded-3'>
+              <div className=''>
+                <img src={studentpic} className='home-img' alt="" />
+              </div>
+              <div>
+                <h1 className='text-style'>Student</h1>
+                <p className='text-wrap text-style'>Teacher can create, update, <br /> delete and read student here</p>
+                <button className='btn btn-primary'><Link className="nav-link text-style" to={'/students'}>Click here</Link></button>
+              </div>
             </div>
           </div>
-          <div className='d-flex justify-content-around w-100 light-bg p-5 border border-3 border-dark rounded-3'>
-            <div className=''>
-              <img src={studentpic} className='home-img' alt="" />
-            </div>
-            <div>
-              <h1 className='text-style'>Student</h1>
-              <p className='text-wrap text-style'>Teacher can create, update, <br /> delete and read student here</p>
-              <button className='btn btn-primary'>Click here</button>
+          <div className='p-5 '>
+            <div className='d-flex gap-5 p-4 light-bg rounded-3 border border-dark border-3'>
+              <div>
+                <img src={teacherpic} className="school-img rounded-3 img-fluid object-fit-cover" alt="" />
+              </div>
+              <div className='w-75'>
+                <h1 className='text-style fw-bolder text-wrap'>Teachers</h1>
+                <p className='text-style lh-lg'>Teachers play a pivotal role in shaping the minds and futures of students, serving as mentors, educators, and inspirations. With a profound impact that extends beyond the classroom, teachers foster an environment of learning, curiosity, and growth. Their dedication, passion, and ability to impart knowledge not only contribute to academic excellence but also help instill essential values, critical thinking skills, and a lifelong love for learning in their students. Teachers stand as pillars of support, guiding and empowering the next generation to navigate the challenges of education and life, making an indelible mark on the journey of every learner they encounter.</p>
+                <button className='btn btn-primary'><Link className="nav-link text-style" to={'/teachers'}>Click here</Link></button>
+              </div>
             </div>
           </div>
-        </div> : null
+        </> : null
       }
       {
         Srole == "student" && student ?
@@ -89,7 +103,7 @@ const Home = () => {
                 <div className='w-50 text-center'>
                   <h1 className='text-style'>Students</h1>
                   <p className=' text-style'>Student can see their<br /> schoolmates here</p>
-                  <button className='btn btn-primary'><Link className="nav-link text-style" to={'/marklist'}>Click here</Link></button>
+                  <button className='btn btn-primary'><Link className="nav-link text-style" to={'/students'}>Click here</Link></button>
                 </div>
               </div>
             </div>

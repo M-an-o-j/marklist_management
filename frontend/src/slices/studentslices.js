@@ -71,7 +71,7 @@ const studentslice = createSlice({
                 Sloading: false,
                 SisAuthenticated:true,
                 student:action.payload,
-                studentdata:action.payload
+                studentdata:null
             }
         },
         studentdataError(state, action) {
@@ -105,7 +105,8 @@ const studentslice = createSlice({
                 Serror:action.payload,
                 studentdata:null
             }
-        },
+        }
+
 
     }
 })
