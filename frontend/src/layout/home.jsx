@@ -44,7 +44,7 @@ const Home = () => {
         </div>
       </div>
 
-      {Trole == "teacher" && teacher ?
+      {Trole == "teacher" && TisAuthenticated || Srole == "student" && SisAuthenticated ?
         <>
           <div className='d-flex justify-content-between p-5 gap-3'>
             <div className='d-flex justify-content-around w-100 light-bg p-5 border border-3 border-dark rounded-3 gap-3'>
@@ -82,8 +82,8 @@ const Home = () => {
           </div>
         </> : null
       }
-      {
-        Srole == "student" && student ?
+      {/* {
+        Srole == "student" && SisAuthenticated ?
           <>
             <div className='d-flex justify-content-between p-5 gap-3'>
               <div className='d-flex justify-content-around w-100 light-bg p-5 border border-3 border-dark rounded-3 gap-3'>
@@ -120,7 +120,7 @@ const Home = () => {
               </div>
             </div>
           </> : null
-      }
+      } */}
 
     </>
   )

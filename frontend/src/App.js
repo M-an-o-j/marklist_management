@@ -9,10 +9,10 @@ import { loadteacher } from './actions/teacherActions'
 import "./App.css"
 import { useDispatch, useSelector } from 'react-redux'
 import Profile from './layout/Profile';
-import Marklist from './layout/Marklist';
+import Marklist from './layout/marklist/Marklist';
 import { loadstudent } from './actions/studentActions';
-import Students from './layout/students';
-import Stud_record from './layout/Stud_record';
+import Students from './layout/students/students';
+import Stud_record from './layout/students/Stud_record';
 
 const App = () => {
   const dispatch = useDispatch();

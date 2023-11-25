@@ -1,8 +1,8 @@
 import React from 'react'
-import studentpic from '../assets/students.jpg'
+import studentpic from '../../assets/students.jpg'
 import { Link } from 'react-router-dom'
-import studentrecords from '../assets/records.jpg'
-import create from '../assets/create_student.jpg'
+import studentrecords from '../../assets/records.jpg'
+import create from '../../assets/create_student.jpg'
 import { useSelector } from 'react-redux'
 
 const Students = () => {

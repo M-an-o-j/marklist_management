@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { loadmarklist } from '../actions/marklistActions'
+import { loadmarklist } from '../../actions/marklistActions'
 import { ThreeCircles } from 'react-loader-spinner'
 import { Canvas, useFrame } from "@react-three/fiber";
-import Cylinder3d from "../components/cylinder";
-import {Book} from '../components/Book'
+import Cylinder3d from "../../components/cylinder";
+import {Book} from '../../components/Book'
 
 const Marklist = () => {
     const dispatch = useDispatch()
